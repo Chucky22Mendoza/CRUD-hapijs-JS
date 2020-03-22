@@ -58,7 +58,10 @@ const init = async () => {
         handler: async (request, h) => {
             try {
                 const task = await Task.findById(request.params.id);
-                return h.response(task);
+                if (task) {
+                    return h.response(task);
+                }
+                return h.response().code(404);
             } catch (error) {
                 return h.response(error).code(500);
             }
@@ -90,7 +93,10 @@ const init = async () => {
                         new: true
                     }
                 );
-                return h.response(updatedTask);
+                if (updatedTask) {
+                    return h.response(updatedTask);
+                }
+                return h.response().code(404);
             } catch (error) {
                 return h.response(error).code(500);
             }
@@ -103,7 +109,10 @@ const init = async () => {
         handler: async (request, h) => {
             try {
                 const deletedTask = await Task.findByIdAndDelete(request.params.id);
-                return h.response(deletedTask);
+                if (deletedTask) {
+                    return h.response(deletedTask);
+                }
+                return h.response().code(404);
             } catch (error) {
                 return h.response(error).code(500);
             }
